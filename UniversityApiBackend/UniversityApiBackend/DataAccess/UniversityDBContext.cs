@@ -9,7 +9,8 @@ namespace univeristy_api_backend.DataAccess
         {
 
         }
-        public DbSet<User>? User { get; set; }
+        public DbSet<User>? Users { get; set; }
         public DbSet<Curso>? Cursos { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
     }
 }
