@@ -2,9 +2,9 @@
 
 namespace UniversityApiBackend.Models.DataModels
 {
-    public class Categoria : BaseEntity
+    public class Category : BaseEntity
     {
         [Required]
-        public string Name { get; set; } = string.Empty;
+        public string Nombre { get; set; } = string.Empty;
     }
 }
