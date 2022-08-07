@@ -46,19 +46,21 @@ namespace University1.Controllers
             {
 
                 var Token = new UserTokens();
-                // tenemos que buscar una lógica más avanzada para obtener el usuario pasándole el id o pasándole el nombre en este caso ->
-                //var searchUser = await _context.Users. ;
-                var Valid = Logins.Any(user => user.Name.Equals(userLogin.UserName, StringComparison.OrdinalIgnoreCase));
+                // Search a user in cotext with LINQ
+                var searchUser = (from user in _context.Users
+                                 where user.Name == userLogin.UserName && user.Password == userLogin.Password select user).FirstOrDefault();
+             
+                //var Valid = Logins.Any(user => user.Name.Equals(userLogin.UserName, StringComparison.OrdinalIgnoreCase));
 
-                if (Valid)
+                if (searchUser == null)
                 {
-                    var user = Logins.FirstOrDefault(user => user.Name.Equals(userLogin.UserName, StringComparison.OrdinalIgnoreCase));
+                    //var user = Logins.FirstOrDefault(user => user.Name.Equals(userLogin.UserName, StringComparison.OrdinalIgnoreCase));
 
                     Token = JwtHelpers.GenTokenKey(new UserTokens()
                     {
-                        UserName = user.Name,
-                        EmailId = user.Email,
-                        Id = user.Id,
+                        UserName = searchUser.Name,
+                        EmailId = searchUser.Email,
+                        Id = searchUser.Id,
                         GuidId = Guid.NewGuid(),
 
                     }, _jwtSettings);
@@ -79,7 +81,7 @@ namespace University1.Controllers
         public IActionResult userVerification(UserLogins userLogins)
         {
            
-            var verifiedUser = from user in _context.Users where userLogins.Equals(user.Name) && userLogins.Equals(user.LastName) select user;
+            var verifiedUser = (from user in _context.Users where userLogins.Equals(user.Name) && userLogins.Equals(user.LastName) select user).FirstOrDefault();
             return (IActionResult)verifiedUser;
         } 
 

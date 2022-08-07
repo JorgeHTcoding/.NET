@@ -192,10 +192,10 @@ namespace LinqSnippets
                                on element equals secondElement
                                select new { element, secondElement };
 
-            var commonResult2 = firstList.Join(
+            /*var commonResult2 = firstList.Join(
                 secondList, element => element, secondElement,
                 (element, secondElement) => new { element, secondElement }
-                );
+                );*/
 
             // OUTER LEFT JOIN 
 

@@ -7,8 +7,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using University1.DataAccess;
 using University1.Models.DataModels;
+using Microsoft.Extensions.Localization;
+using University1.Entities;
 
 namespace University1.Controllers
 {
@@ -17,10 +20,14 @@ namespace University1.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UniversityDBContext _context;
+        private readonly IStringLocalizer<UsersController> _stringLocalizer;
+        private readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
 
-        public UsersController(UniversityDBContext context)
+        public UsersController(UniversityDBContext context, IStringLocalizer<UsersController> stringLocalizer, IStringLocalizer<SharedResource> sharedResourceLocalizer)
         {
             _context = context;
+            _stringLocalizer = stringLocalizer;
+            _sharedResourceLocalizer = sharedResourceLocalizer;
         }
 
         // GET: api/Users
@@ -51,6 +58,7 @@ namespace University1.Controllers
 
             return user;
         }
+    
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -97,7 +105,9 @@ namespace University1.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            var welcomeMsg = _stringLocalizer["welcomeMsg"];
+
+            return CreatedAtAction(welcomeMsg.Value, "GetUser", new { id = user.Id }, user);
         }
 
         // DELETE: api/Users/5
