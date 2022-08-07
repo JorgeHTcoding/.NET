@@ -2,6 +2,8 @@
 
 namespace University1.Models.DataModels
 {
+    public enum Rol { Administrador , Usuario };
+
     public class User : BaseEntity
     {
          
@@ -15,5 +17,8 @@ namespace University1.Models.DataModels
         public string Email { get; set; } = string.Empty;
         [Required]
         public string Password { get; set; } = string.Empty;
+        [Required]
+        public Rol Rol { get; set; }
+
     }
 }

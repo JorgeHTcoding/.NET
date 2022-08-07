@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using University1.DataAccess;
 using University1.Helpers;
 using University1.Models.DataModels;
 
@@ -11,13 +12,16 @@ namespace University1.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+        private readonly UniversityDBContext _context;
         private readonly JwtSettings _jwtSettings;
 
-        public AccountController(JwtSettings jwtSettings)
+        public AccountController(UniversityDBContext context, JwtSettings jwtSettings)
         {
+            _context = context;
             _jwtSettings = jwtSettings;
         }
-
+        // TODO: Change to real users in the DB
+        // These are hardcoded users
         private IEnumerable<User> Logins = new List<User>()
         {
             new User()
@@ -40,7 +44,10 @@ namespace University1.Controllers
         {
             try
             {
+
                 var Token = new UserTokens();
+                // tenemos que buscar una lógica más avanzada para obtener el usuario pasándole el id o pasándole el nombre en este caso ->
+                //var searchUser = await _context.Users. ;
                 var Valid = Logins.Any(user => user.Name.Equals(userLogin.UserName, StringComparison.OrdinalIgnoreCase));
 
                 if (Valid)
@@ -66,6 +73,15 @@ namespace University1.Controllers
                 throw new Exception("Get Token Error", exception);
             }
         }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin , User")]
+        public IActionResult userVerification(UserLogins userLogins)
+        {
+           
+            var verifiedUser = from user in _context.Users where userLogins.Equals(user.Name) && userLogins.Equals(user.LastName) select user;
+            return (IActionResult)verifiedUser;
+        } 
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
