@@ -17,17 +17,23 @@ namespace University1.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly UniversityDBContext _context;
+        private readonly ILogger<CategoriesController> _logger;
 
-        public CategoriesController(UniversityDBContext context)
+        public CategoriesController(UniversityDBContext context, ILogger<CategoriesController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/Categories
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategorias()
         {
-          if (_context.Categorias == null)
+            _logger.LogWarning($"{nameof(CategoriesController)} - {nameof(GetCategorias)} Warning Level Log");
+            _logger.LogError($"{nameof(CategoriesController)} - {nameof(GetCategorias)} Error Level Log");
+            _logger.LogCritical($"{nameof(CategoriesController)} - {nameof(GetCategorias)} Critical Level Log"); 
+
+            if (_context.Categorias == null)
           {
               return NotFound();
           }
@@ -37,8 +43,13 @@ namespace University1.Controllers
         // GET: api/Categories/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Category>> GetCategory(int id)
+
         {
-          if (_context.Categorias == null)
+            _logger.LogWarning($"{nameof(CategoriesController)} - {nameof(GetCategory)} Warning Level Log");
+            _logger.LogError($"{nameof(CategoriesController)} - {nameof(GetCategory)} Error Level Log");
+            _logger.LogCritical($"{nameof(CategoriesController)} - {nameof(GetCategory)} Critical Level Log");
+
+            if (_context.Categorias == null)
           {
               return NotFound();
           }
@@ -58,6 +69,10 @@ namespace University1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> PutCategory(int id, Category category)
         {
+            _logger.LogWarning($"{nameof(CategoriesController)} - {nameof(PutCategory)} Warning Level Log");
+            _logger.LogError($"{nameof(CategoriesController)} - {nameof(PutCategory)} Error Level Log");
+            _logger.LogCritical($"{nameof(CategoriesController)} - {nameof(PutCategory)} Critical Level Log");
+
             if (id != category.Id)
             {
                 return BadRequest();
@@ -90,7 +105,11 @@ namespace University1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult<Category>> PostCategory(Category category)
         {
-          if (_context.Categorias == null)
+            _logger.LogWarning($"{nameof(CategoriesController)} - {nameof(PostCategory)} Warning Level Log");
+            _logger.LogError($"{nameof(CategoriesController)} - {nameof(PostCategory)} Error Level Log");
+            _logger.LogCritical($"{nameof(CategoriesController)} - {nameof(PostCategory)} Critical Level Log");
+
+            if (_context.Categorias == null)
           {
               return Problem("Entity set 'UniversityDBContext.Categorias'  is null.");
           }
@@ -105,6 +124,10 @@ namespace University1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
+            _logger.LogWarning($"{nameof(CategoriesController)} - {nameof(DeleteCategory)} Warning Level Log");
+            _logger.LogError($"{nameof(CategoriesController)} - {nameof(DeleteCategory)} Error Level Log");
+            _logger.LogCritical($"{nameof(CategoriesController)} - {nameof(DeleteCategory)} Critical Level Log");
+
             if (_context.Categorias == null)
             {
                 return NotFound();

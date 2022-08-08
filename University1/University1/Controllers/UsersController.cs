@@ -22,19 +22,24 @@ namespace University1.Controllers
         private readonly UniversityDBContext _context;
         private readonly IStringLocalizer<UsersController> _stringLocalizer;
         private readonly IStringLocalizer<SharedResource> _sharedResourceLocalizer;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(UniversityDBContext context, IStringLocalizer<UsersController> stringLocalizer, IStringLocalizer<SharedResource> sharedResourceLocalizer)
+        public UsersController(UniversityDBContext context, IStringLocalizer<UsersController> stringLocalizer, IStringLocalizer<SharedResource> sharedResourceLocalizer, ILogger<UsersController> logger)
         {
             _context = context;
             _stringLocalizer = stringLocalizer;
             _sharedResourceLocalizer = sharedResourceLocalizer;
+            _logger = logger;
         }
 
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-          if (_context.Users == null)
+            _logger.LogWarning($"{nameof(UsersController)} - {nameof(GetUsers)} Warning Level Log");
+            _logger.LogError($"{nameof(UsersController)} - {nameof(GetUsers)} Error Level Log");
+            _logger.LogCritical($"{nameof(UsersController)} - {nameof(GetUsers)} Critical Level Log");
+            if (_context.Users == null)
           {
               return NotFound();
           }
@@ -45,7 +50,11 @@ namespace University1.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-          if (_context.Users == null)
+            _logger.LogWarning($"{nameof(UsersController)} - {nameof(GetUser)} Warning Level Log");
+            _logger.LogError($"{nameof(UsersController)} - {nameof(GetUser)} Error Level Log");
+            _logger.LogCritical($"{nameof(UsersController)} - {nameof(GetUser)} Critical Level Log");
+
+            if (_context.Users == null)
           {
               return NotFound();
           }
@@ -66,6 +75,10 @@ namespace University1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
+            _logger.LogWarning($"{nameof(UsersController)} - {nameof(PutUser)} Warning Level Log");
+            _logger.LogError($"{nameof(UsersController)} - {nameof(PutUser)} Error Level Log");
+            _logger.LogCritical($"{nameof(UsersController)} - {nameof(PutUser)} Critical Level Log");
+
             if (id != user.Id)
             {
                 return BadRequest();
@@ -98,7 +111,11 @@ namespace University1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-          if (_context.Users == null)
+            _logger.LogWarning($"{nameof(UsersController)} - {nameof(PostUser)} Warning Level Log");
+            _logger.LogError($"{nameof(UsersController)} - {nameof(PostUser)} Error Level Log");
+            _logger.LogCritical($"{nameof(UsersController)} - {nameof(PostUser)} Critical Level Log");
+
+            if (_context.Users == null)
           {
               return Problem("Entity set 'UniversityDBContext.Users'  is null.");
           }
@@ -115,6 +132,10 @@ namespace University1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(int id)
         {
+            _logger.LogWarning($"{nameof(UsersController)} - {nameof(DeleteUser)} Warning Level Log");
+            _logger.LogError($"{nameof(UsersController)} - {nameof(DeleteUser)} Error Level Log");
+            _logger.LogCritical($"{nameof(UsersController)} - {nameof(DeleteUser)} Critical Level Log");
+
             if (_context.Users == null)
             {
                 return NotFound();

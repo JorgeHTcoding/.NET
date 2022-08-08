@@ -21,18 +21,24 @@ namespace University1.Controllers
 
         //Service
         private readonly IStudentServices _studentService;
+        private readonly ILogger<StudentsController> _logger;
 
-        public StudentsController(UniversityDBContext context, IStudentServices studentService)
+        public StudentsController(UniversityDBContext context, IStudentServices studentService, ILogger<StudentsController> logger)
         {
             _context = context;
             _studentService = studentService;
+            _logger = logger;
         }
 
         // GET: api/Students
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
         {
-          if (_context.Students == null)
+            _logger.LogWarning($"{nameof(StudentsController)} - {nameof(GetStudents)} Warning Level Log");
+            _logger.LogError($"{nameof(StudentsController)} - {nameof(GetStudents)} Error Level Log");
+            _logger.LogCritical($"{nameof(StudentsController)} - {nameof(GetStudents)} Critical Level Log");
+
+            if (_context.Students == null)
           {
               return NotFound();
           }
@@ -43,7 +49,11 @@ namespace University1.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Student>> GetStudent(int id)
         {
-          if (_context.Students == null)
+            _logger.LogWarning($"{nameof(StudentsController)} - {nameof(GetStudent)} Warning Level Log");
+            _logger.LogError($"{nameof(StudentsController)} - {nameof(GetStudent)} Error Level Log");
+            _logger.LogCritical($"{nameof(StudentsController)} - {nameof(GetStudent)} Critical Level Log");
+
+            if (_context.Students == null)
           {
               return NotFound();
           }
@@ -67,6 +77,10 @@ namespace University1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> PutStudent(int id, Student student)
         {
+            _logger.LogWarning($"{nameof(StudentsController)} - {nameof(PutStudent)} Warning Level Log");
+            _logger.LogError($"{nameof(StudentsController)} - {nameof(PutStudent)} Error Level Log");
+            _logger.LogCritical($"{nameof(StudentsController)} - {nameof(PutStudent)} Critical Level Log");
+
             if (id != student.Id)
             {
                 return BadRequest();
@@ -99,7 +113,11 @@ namespace University1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult<Student>> PostStudent(Student student)
         {
-          if (_context.Students == null)
+            _logger.LogWarning($"{nameof(StudentsController)} - {nameof(PostStudent)} Warning Level Log");
+            _logger.LogError($"{nameof(StudentsController)} - {nameof(PostStudent)} Error Level Log");
+            _logger.LogCritical($"{nameof(StudentsController)} - {nameof(PostStudent)} Critical Level Log");
+
+            if (_context.Students == null)
           {
               return Problem("Entity set 'UniversityDBContext.Students'  is null.");
           }
@@ -114,6 +132,9 @@ namespace University1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> DeleteStudent(int id)
         {
+            _logger.LogWarning($"{nameof(StudentsController)} - {nameof(DeleteStudent)} Warning Level Log");
+            _logger.LogError($"{nameof(StudentsController)} - {nameof(DeleteStudent)} Error Level Log");
+            _logger.LogCritical($"{nameof(StudentsController)} - {nameof(DeleteStudent)} Critical Level Log");
             if (_context.Students == null)
             {
                 return NotFound();

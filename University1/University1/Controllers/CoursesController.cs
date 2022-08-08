@@ -21,17 +21,24 @@ namespace University1.Controllers
 
         private readonly ICourseServices _courseService;
 
-        public CoursesController(UniversityDBContext context, ICourseServices courseService)
+        private readonly ILogger<CoursesController> _logger;
+
+        public CoursesController(UniversityDBContext context, ICourseServices courseService, ILogger<CoursesController> logger)
         {
             _context = context;
             _courseService = courseService;
+            _logger = logger;
         }
 
         // GET: api/Courses
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
         {
-          if (_context.Courses == null)
+            _logger.LogWarning($"{nameof(CoursesController)} - {nameof(GetCourses)} Warning Level Log");
+            _logger.LogError($"{nameof(CoursesController)} - {nameof(GetCourses)} Error Level Log");
+            _logger.LogCritical($"{nameof(WeatherForecastController)} - {nameof(GetCourses)} Critical Level Log");
+
+            if (_context.Courses == null)
           {
               return NotFound();
           }
@@ -42,7 +49,11 @@ namespace University1.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Course>> GetCourse(int id)
         {
-          if (_context.Courses == null)
+            _logger.LogWarning($"{nameof(CoursesController)} - {nameof(GetCourse)} Warning Level Log");
+            _logger.LogError($"{nameof(CoursesController)} - {nameof(GetCourse)} Error Level Log");
+            _logger.LogCritical($"{nameof(CoursesController)} - {nameof(GetCourse)} Critical Level Log");
+
+            if (_context.Courses == null)
           {
               return NotFound();
           }
@@ -66,6 +77,10 @@ namespace University1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> PutCourse(int id, Course course)
         {
+            _logger.LogWarning($"{nameof(CoursesController)} - {nameof(PutCourse)} Warning Level Log");
+            _logger.LogError($"{nameof(CoursesController)} - {nameof(PutCourse)} Error Level Log");
+            _logger.LogCritical($"{nameof(CoursesController)} - {nameof(PutCourse)} Critical Level Log");
+
             if (id != course.Id)
             {
                 return BadRequest();
@@ -98,7 +113,10 @@ namespace University1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult<Course>> PostCourse(Course course)
         {
-          if (_context.Courses == null)
+            _logger.LogWarning($"{nameof(CoursesController)} - {nameof(PostCourse)} Warning Level Log");
+            _logger.LogError($"{nameof(CoursesController)} - {nameof(PostCourse)} Error Level Log");
+            _logger.LogCritical($"{nameof(CoursesController)} - {nameof(PostCourse)} Critical Level Log");
+            if (_context.Courses == null)
           {
               return Problem("Entity set 'UniversityDBContext.Courses'  is null.");
           }
@@ -113,6 +131,9 @@ namespace University1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> DeleteCourse(int id)
         {
+            _logger.LogWarning($"{nameof(CoursesController)} - {nameof(DeleteCourse)} Warning Level Log");
+            _logger.LogError($"{nameof(CoursesController)} - {nameof(DeleteCourse)} Error Level Log");
+            _logger.LogCritical($"{nameof(CoursesController)} - {nameof(DeleteCourse)} Critical Level Log");
             if (_context.Courses == null)
             {
                 return NotFound();

@@ -17,17 +17,22 @@ namespace University1.Controllers
     public class ChaptersController : ControllerBase
     {
         private readonly UniversityDBContext _context;
+        private readonly ILogger<ChaptersController> _logger;   
 
-        public ChaptersController(UniversityDBContext context)
+        public ChaptersController(UniversityDBContext context, ILogger<ChaptersController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/Chapters
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Chapters>>> GetChapters()
         {
-          if (_context.Chapters == null)
+            _logger.LogWarning($"{nameof(ChaptersController)} - {nameof(GetChapters)} Warning Level Log");
+            _logger.LogError($"{nameof(ChaptersController)} - {nameof(GetChapters)} Error Level Log");
+            _logger.LogCritical($"{nameof(ChaptersController)} - {nameof(GetChapters)} Critical Level Log");
+            if (_context.Chapters == null)
           {
               return NotFound();
           }
@@ -36,9 +41,12 @@ namespace University1.Controllers
 
         // GET: api/Chapters/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Chapters>> GetChapters(int id)
+        public async Task<ActionResult<Chapters>> GetChapter(int id)
         {
-          if (_context.Chapters == null)
+            _logger.LogWarning($"{nameof(ChaptersController)} - {nameof(GetChapter)} Warning Level Log");
+            _logger.LogError($"{nameof(ChaptersController)} - {nameof(GetChapter)} Error Level Log");
+            _logger.LogCritical($"{nameof(ChaptersController)} - {nameof(GetChapter)} Critical Level Log");
+            if (_context.Chapters == null)
           {
               return NotFound();
           }
@@ -58,6 +66,9 @@ namespace University1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> PutChapters(int id, Chapters chapters)
         {
+            _logger.LogWarning($"{nameof(ChaptersController)} - {nameof(PutChapters)} Warning Level Log");
+            _logger.LogError($"{nameof(ChaptersController)} - {nameof(PutChapters)} Error Level Log");
+            _logger.LogCritical($"{nameof(ChaptersController)} - {nameof(PutChapters)} Critical Level Log");
             if (id != chapters.Id)
             {
                 return BadRequest();
@@ -90,7 +101,10 @@ namespace University1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<ActionResult<Chapters>> PostChapters(Chapters chapters)
         {
-          if (_context.Chapters == null)
+            _logger.LogWarning($"{nameof(ChaptersController)} - {nameof(PostChapters)} Warning Level Log");
+            _logger.LogError($"{nameof(ChaptersController)} - {nameof(PostChapters)} Error Level Log");
+            _logger.LogCritical($"{nameof(ChaptersController)} - {nameof(PostChapters)} Critical Level Log");
+            if (_context.Chapters == null)
           {
               return Problem("Entity set 'UniversityDBContext.Chapters'  is null.");
           }
@@ -105,6 +119,9 @@ namespace University1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> DeleteChapters(int id)
         {
+            _logger.LogWarning($"{nameof(ChaptersController)} - {nameof(DeleteChapters)} Warning Level Log");
+            _logger.LogError($"{nameof(ChaptersController)} - {nameof(DeleteChapters)} Error Level Log");
+            _logger.LogCritical($"{nameof(ChaptersController)} - {nameof(DeleteChapters)} Critical Level Log");
             if (_context.Chapters == null)
             {
                 return NotFound();

@@ -14,11 +14,13 @@ namespace University1.Controllers
     {
         private readonly UniversityDBContext _context;
         private readonly JwtSettings _jwtSettings;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(UniversityDBContext context, JwtSettings jwtSettings)
+        public AccountController(UniversityDBContext context, JwtSettings jwtSettings, ILogger<AccountController> logger)
         {
             _context = context;
             _jwtSettings = jwtSettings;
+            _logger = logger;
         }
         // TODO: Change to real users in the DB
         // These are hardcoded users
@@ -42,6 +44,9 @@ namespace University1.Controllers
         [HttpPost]
         public IActionResult GetToken(UserLogins userLogin)
         {
+            _logger.LogWarning($"{nameof(AccountController)} - {nameof(GetToken)} Warning Level Log");
+            _logger.LogError($"{nameof(AccountController)} - {nameof(GetToken)} Error Level Log");
+            _logger.LogCritical($"{nameof(AccountController)} - {nameof(GetToken)} Critical Level Log");
             try
             {
 
@@ -78,9 +83,9 @@ namespace University1.Controllers
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin , User")]
-        public IActionResult userVerification(UserLogins userLogins)
-        {
-           
+        public IActionResult userVerification(UserLogins userLogins)       {
+                        
+
             var verifiedUser = (from user in _context.Users where userLogins.Equals(user.Name) && userLogins.Equals(user.LastName) select user).FirstOrDefault();
             return (IActionResult)verifiedUser;
         } 
@@ -88,7 +93,12 @@ namespace University1.Controllers
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public IActionResult GetUserList()
-        {
+        {          
+            
+            _logger.LogWarning($"{nameof(AccountController)} - {nameof(GetUserList)} Warning Level Log");
+            _logger.LogError($"{nameof(AccountController)} - {nameof(GetUserList)} Error Level Log");
+            _logger.LogCritical($"{nameof(AccountController)} - {nameof(GetUserList)} Critical Level Log");
+
             return Ok(Logins);
         }
         }
